@@ -85,6 +85,8 @@ def fetch_committee_reports(committee_key, lok_sabha=None, house=None):
             "presented_in_ls": record.get("PresentedInLS"),
             "laid_in_rs": record.get("LaidInRS"),
             "presented_to_speaker": record.get("PresentedToSpeaker"),
+            "date_of_presentation": record.get("dateOfPresentation"),
+            "date_of_adoption": record.get("dateOfAdoption"),
             "pdf_url": sanitize_url(record.get("url")),
             "pdf_url_hindi": sanitize_url(record.get("urlH")),
             "lok_sabha": record.get("Loksabha", lok_sabha),

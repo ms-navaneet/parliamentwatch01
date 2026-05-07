@@ -96,7 +96,7 @@ def parse_date(date_str):
     """Parse date strings like '18-Mar-2026' into datetime objects."""
     if not date_str:
         return None
-    for fmt in ("%d-%b-%Y", "%d-%B-%Y", "%d/%m/%Y"):
+    for fmt in ("%d-%b-%Y", "%d-%B-%Y", "%d/%m/%Y", "%Y-%m-%d"):
         try:
             return datetime.strptime(date_str.strip(), fmt)
         except (ValueError, AttributeError):
@@ -110,6 +110,8 @@ def get_report_date(report):
         parse_date(report.get("presented_in_ls"))
         or parse_date(report.get("laid_in_rs"))
         or parse_date(report.get("presented_to_speaker"))
+        or parse_date(report.get("date_of_presentation"))
+        or parse_date(report.get("date_of_adoption"))
     )
 
 
