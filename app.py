@@ -288,10 +288,14 @@ def show_report_dialog(r):
             if st.button("Generate Summary", key="dialog_gen_summary", type="primary"):
                 with st.status("Summarizing...", expanded=True) as status:
                     summary = summarize_report(full_text, committee_name, report_num_str, committee_key, **_get_byok_kwargs())
-                    status.update(label="Done", state="complete")
-                if summary:
-                    st.markdown(summary)
-                    st.rerun()
+                    if summary and summary.startswith("__ERROR__:"):
+                        status.update(label="Error from LLM", state="error")
+                        st.error(summary.replace("__ERROR__:", ""))
+                    elif summary:
+                        status.update(label="Done", state="complete")
+                        st.markdown(summary)
+                    else:
+                        status.update(label="LLM returned no response — check your API key and provider", state="error")
         else:
             st.info("Enter your LLM API key in the sidebar to generate a summary.")
         with st.expander("Full extracted text"):
