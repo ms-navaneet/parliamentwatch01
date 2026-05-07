@@ -102,11 +102,17 @@ def scrape_all_committees(committee_keys=None, lok_sabha=None, house=None, both_
     """
     Fetch reports for specified committees (or all DRSCs).
 
+    Each committee uses its own configured house from DRSC_COMMITTEES. The
+    `house` arg can override that for a committee, but only if it matches.
+    `both_houses` is kept for API compatibility but is now a no-op — different
+    committees can share api_codes between LS/RS, so blindly fetching both
+    causes cross-contamination.
+
     Args:
         committee_keys: List of committee short names, or None for all
         lok_sabha: Lok Sabha number (defaults to current)
-        house: Override house ("L"/"R"). If None, uses each committee's configured house.
-        both_houses: If True, fetch from both LS and RS and merge (dedup by report_number)
+        house: Override — only fetch committees whose configured house matches
+        both_houses: Deprecated, ignored. Each committee uses its own house.
 
     Returns:
         Dict mapping committee_key -> list of reports
@@ -124,17 +130,19 @@ def scrape_all_committees(committee_keys=None, lok_sabha=None, house=None, both_
         committee = DRSC_COMMITTEES[key]
         committee_house = committee.get("house", "L")
 
-        if both_houses:
-            houses = ["L", "R"]
-        elif house is not None:
-            houses = [house]
-        else:
-            houses = [committee_house]
+        # If user specified a house filter, skip committees that don't match
+        if house is not None and house != committee_house:
+            continue
 
-        # Build index of existing reports by (report_number, lok_sabha) for merging
+        houses = [committee_house]
+
+        # Build index of existing reports by (report_number, lok_sabha) for merging.
+        # Filter out cross-contamination from the old `both_houses` bug: records
+        # whose `house` doesn't match the committee's configured house.
         existing_reports = {
             (r.get("report_number"), r.get("lok_sabha")): r
             for r in all_reports.get(key, [])
+            if r.get("house") == committee_house
         }
 
         for h in houses:

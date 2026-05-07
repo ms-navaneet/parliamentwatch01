@@ -369,17 +369,19 @@ else:
     st.sidebar.warning("No data yet. Fetch reports to get started.")
 
 with st.sidebar.expander("Fetch / Refresh Data"):
-    fetch_house = st.radio("House", ["Both", "Lok Sabha only", "Rajya Sabha only"], key="fetch_house")
+    fetch_house = st.radio("Filter", ["All committees", "Lok Sabha only", "Rajya Sabha only"], key="fetch_house",
+                           help="Each committee is fetched in its own configured house (LS or RS). The filter just lets you skip one set.")
     fetch_ls = st.number_input("Lok Sabha #", value=CURRENT_LOK_SABHA, min_value=1, max_value=20, key="fetch_ls")
 
     if st.button("Fetch All Committees", type="primary"):
-        both = fetch_house == "Both"
-        house_code = "L" if fetch_house == "Lok Sabha only" else "R"
+        if fetch_house == "Lok Sabha only":
+            house_code = "L"
+        elif fetch_house == "Rajya Sabha only":
+            house_code = "R"
+        else:
+            house_code = None
         with st.status("Fetching from sansad.in...", expanded=True) as status:
-            if both:
-                results = scrape_all_committees(lok_sabha=fetch_ls, both_houses=True)
-            else:
-                results = scrape_all_committees(lok_sabha=fetch_ls, house=house_code)
+            results = scrape_all_committees(lok_sabha=fetch_ls, house=house_code)
             total = sum(len(v) for v in results.values())
             st.write(f"Fetched {total} reports. Now fetching committee members...")
             fetch_all_committee_members(lok_sabha=fetch_ls)
