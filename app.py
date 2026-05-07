@@ -420,6 +420,7 @@ _PROVIDER_PRESETS = {
     "Google Gemini (free tier)": ("openai", "gemini-2.0-flash", "https://generativelanguage.googleapis.com/v1beta/openai/", True),
     "Groq (free tier)": ("openai", "llama-3.3-70b-versatile", "https://api.groq.com/openai/v1", True),
     "OpenRouter (free models)": ("openai", "meta-llama/llama-4-maverick:free", "https://openrouter.ai/api/v1", True),
+    "OpenCode Zen": ("openai", "claude-sonnet-4-6", "https://opencode.ai/zen/v1", True),
     "Ollama (local, no key)": ("openai", "llama3.2", "http://localhost:11434/v1", False),
     "Custom (OpenAI-compatible)": ("openai", "", "", True),
 }
@@ -443,6 +444,8 @@ with st.sidebar.expander("AI Summarization", expanded=False):
         st.info("Get a free API key at [groq.com/keys](https://console.groq.com/keys). Very fast inference.")
     elif byok_preset == "OpenRouter (free models)":
         st.info("Get a free API key at [openrouter.ai/keys](https://openrouter.ai/keys). Access free open-source models.")
+    elif byok_preset == "OpenCode Zen":
+        st.info("Get a key from your [OpenCode workspace](https://opencode.ai). Unified gateway to Claude, GPT, Gemini, Qwen, and more — model name uses the form like `claude-sonnet-4-6` or `gpt-5.5`.")
 
     if _needs_key:
         byok_api_key = st.text_input(

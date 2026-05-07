@@ -157,6 +157,7 @@ You don't need to pay anything to use AI summaries:
 |----------|-------|
 | **Anthropic (Claude)** | Best quality summaries. Get a key at [console.anthropic.com](https://console.anthropic.com) |
 | **OpenAI (GPT)** | Get a key at [platform.openai.com](https://platform.openai.com/api-keys) |
+| **OpenCode Zen** | Unified gateway to Claude, GPT, Gemini, Qwen and more on a single key. Get a key in your [OpenCode workspace](https://opencode.ai). |
 
 ### Using Ollama (completely free, no account needed)
 
