@@ -1968,8 +1968,10 @@
       "presented_in_ls": "03-Dec-2024",
       "laid_in_rs": "03-Dec-2024",
       "presented_to_speaker": null,
+      "date_of_presentation": null,
+      "date_of_adoption": null,
       "pdf_url": "https://sansad.in/getFile/app/lsscommittee/External Affairs/18_External_Affairs_2.pdf?source=app",
-      "pdf_url_hindi": "https://sansad.in/getFile/app/committee_hindi/External Affairs/18_External_Affairs_2(hindi).pdf?source=app",
+      "pdf_url_hindi": null,
       "lok_sabha": 18,
       "house": "L"
     },
